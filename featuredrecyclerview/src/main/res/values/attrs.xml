@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FeaturedRecyclerView">
+        <attr name="defaultItemHeight" format="dimension" />
+        <attr name="featuredItemHeight" format="dimension" />
+        <attr name="snapGravity" format="integer">
+            <enum name="start" value="0" />
+            <enum name="center" value="1" />
+            <enum name="end" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>
