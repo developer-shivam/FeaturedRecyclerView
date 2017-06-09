@@ -13,6 +13,8 @@ public class FeaturedRecyclerView extends RecyclerView {
     private int defaultItemHeight;
     private int featuredItemHeight;
 
+    private int itemToResizePositionWhileMovingUp = 0;
+    private int itemToResizePositionWhileMovingDown = 1;
     private int itemToResize = 0;
     private boolean isFirstItemHeightSetToFeaturedItemHeight = false;
     private int totalItemsInView = 0;
@@ -73,7 +75,7 @@ public class FeaturedRecyclerView extends RecyclerView {
                         // done from bottom to top and view second view (ID: 1) should be resized.
                         // else the scrolling is in opposite direction so first view (ID: 0)
                         // will be resized.
-                        itemToResize = dy > 0 ? itemToResize : --itemToResize;
+                        itemToResize = dy > 0 ? itemToResizePositionWhileMovingUp : itemToResizePositionWhileMovingDown;
 
                         changeHeightAccordingToScroll(recyclerView);
 
@@ -103,11 +105,14 @@ public class FeaturedRecyclerView extends RecyclerView {
 
     private void calculateItemToBeResizePosition() {
         switch (snapGravity) {
-            case SnapGravity.START: itemToResize = 1;
+            case SnapGravity.START: itemToResizePositionWhileMovingUp = 1;
+                itemToResizePositionWhileMovingDown = itemToResizePositionWhileMovingUp - 1;
                 break;
-            case SnapGravity.CENTER: itemToResize = 3;
+            case SnapGravity.CENTER: itemToResizePositionWhileMovingUp = 2;
+                itemToResizePositionWhileMovingDown = itemToResizePositionWhileMovingUp - 1;
                 break;
-            case SnapGravity.END: itemToResize = 5;
+            case SnapGravity.END: itemToResizePositionWhileMovingUp = 3;
+                itemToResizePositionWhileMovingDown = itemToResizePositionWhileMovingUp - 1;
                 break;
         }
     }
