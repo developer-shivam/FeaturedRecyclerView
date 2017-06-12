@@ -12,6 +12,8 @@ public class FeaturedRecyclerView extends RecyclerView {
 
     private int defaultItemHeight;
     private int featuredItemHeight;
+    private int maxDistance;
+    private int diffHeight;
 
     private int itemToResizePositionWhileMovingUp = 0;
     private int itemToResizePositionWhileMovingDown = 1;
@@ -55,29 +57,29 @@ public class FeaturedRecyclerView extends RecyclerView {
 
                     if (layoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
 
-                        System.out.println("Vertical movement: " + dy);
+                        //System.out.println("Vertical movement: " + dy);
 
-                        if (!isFirstItemHeightSetToFeaturedItemHeight) {
+                        /*if (!isFirstItemHeightSetToFeaturedItemHeight) {
                             if (getLayoutManager().getChildAt(0) != null) {
                                 getLayoutManager().getChildAt(0).getLayoutParams().height = featuredItemHeight;
                                 isFirstItemHeightSetToFeaturedItemHeight = true;
                             }
-                        }
+                        }*/
 
                         //displacement(irrespective of direction)
                         displacement = Math.abs(dy);
 
                         //Check the total items in view.
                         totalItemsInView = layoutManager.getItemCount();
-                        System.out.println("Total items in view are " + totalItemsInView);
+                        //System.out.println("Total items in view are " + totalItemsInView);
 
                         //if vertical displacement is positive then it means scrolling is
                         // done from bottom to top and view second view (ID: 1) should be resized.
                         // else the scrolling is in opposite direction so first view (ID: 0)
                         // will be resized.
-                        itemToResize = dy > 0 ? itemToResizePositionWhileMovingUp : itemToResizePositionWhileMovingDown;
+                        //itemToResize = dy > 0 ? itemToResizePositionWhileMovingUp : itemToResizePositionWhileMovingDown;
 
-                        changeHeightAccordingToScroll(recyclerView);
+                        changeHeightAccordingToScrolling(recyclerView);
 
                     } else System.out.println("Horizontal movement: " + dx);
                 }
@@ -98,20 +100,68 @@ public class FeaturedRecyclerView extends RecyclerView {
         featuredItemHeight = (int) array.getDimension(R.styleable.FeaturedRecyclerView_featuredItemHeight,
                 getResources().getDimension(R.dimen.featuredItemHeight));
 
+        System.out.println("Featured Height: " + featuredItemHeight);
+        System.out.println("Default Height: " + defaultItemHeight);
+
+        diffHeight = featuredItemHeight - defaultItemHeight;
+        System.out.println("Difference: " + diffHeight);
+
+        maxDistance = (featuredItemHeight + defaultItemHeight) / 2;
+        System.out.println("Maximum Distance: " + maxDistance);
+
         snapGravity = array.getInt(R.styleable.FeaturedRecyclerView_snapGravity, SnapGravity.START);
 
         calculateItemToBeResizePosition();
     }
 
+    private float height(float distance) {
+        return featuredItemHeight + ((distance * (diffHeight)) / maxDistance);
+    }
+
+    private void changeHeightAccordingToScrolling(RecyclerView recyclerView) {
+        for (int i = 0; i < totalItemsInView; i++) {
+            View viewToBeResized = recyclerView.getChildAt(i);
+            if (viewToBeResized != null) {
+                float distance = featuredItemHeight/2 - getCenterOfView(viewToBeResized);
+                if (distance > maxDistance) {
+                    viewToBeResized.getLayoutParams().height = defaultItemHeight;
+                    viewToBeResized.requestLayout();
+                } else if (distance <= maxDistance){
+                    if (height(distance) < defaultItemHeight) {
+                        System.out.println("Height is less than defaultItemHeight");
+                        viewToBeResized.getLayoutParams().height = defaultItemHeight;
+                    } else if (height(distance) > featuredItemHeight) {
+                        viewToBeResized.getLayoutParams().height = featuredItemHeight;
+                    } else {
+                        viewToBeResized.getLayoutParams().height = (int) height(distance);
+                    }
+                    viewToBeResized.requestLayout();
+                }
+            }
+        }
+    }
+
+    private float getCenterOfView(View view) {
+        int top = view.getTop();
+        if (top < 0) {
+            return Math.abs(view.getTop() - view.getHeight()) / 2f;
+        } else {
+            return (view.getTop() + view.getHeight()) / 2f;
+        }
+    }
+
     private void calculateItemToBeResizePosition() {
         switch (snapGravity) {
-            case SnapGravity.START: itemToResizePositionWhileMovingUp = 1;
+            case SnapGravity.START:
+                itemToResizePositionWhileMovingUp = 1;
                 itemToResizePositionWhileMovingDown = itemToResizePositionWhileMovingUp - 1;
                 break;
-            case SnapGravity.CENTER: itemToResizePositionWhileMovingUp = 2;
+            case SnapGravity.CENTER:
+                itemToResizePositionWhileMovingUp = 2;
                 itemToResizePositionWhileMovingDown = itemToResizePositionWhileMovingUp - 1;
                 break;
-            case SnapGravity.END: itemToResizePositionWhileMovingUp = 3;
+            case SnapGravity.END:
+                itemToResizePositionWhileMovingUp = 3;
                 itemToResizePositionWhileMovingDown = itemToResizePositionWhileMovingUp - 1;
                 break;
         }

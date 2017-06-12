@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import shivam.developer.featuredrecyclerview.FeatureLinearLayoutManager;
 import shivam.developer.featuredrecyclerview.FeaturedRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         createDummyDataList();
         featuredRecyclerView = (FeaturedRecyclerView) findViewById(R.id.featured_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        FeatureLinearLayoutManager layoutManager = new FeatureLinearLayoutManager(this);
         featuredRecyclerView.setLayoutManager(layoutManager);
         CustomRecyclerViewAdapter adapter = new CustomRecyclerViewAdapter(dummyData);
         featuredRecyclerView.setAdapter(adapter);
