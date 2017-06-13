@@ -106,7 +106,7 @@ public class FeaturedRecyclerView extends RecyclerView {
         diffHeight = featuredItemHeight - defaultItemHeight;
         System.out.println("Difference: " + diffHeight);
 
-        maxDistance = (featuredItemHeight + defaultItemHeight) / 2;
+        maxDistance = featuredItemHeight;
         System.out.println("Maximum Distance: " + maxDistance);
 
         snapGravity = array.getInt(R.styleable.FeaturedRecyclerView_snapGravity, SnapGravity.START);
@@ -115,39 +115,27 @@ public class FeaturedRecyclerView extends RecyclerView {
     }
 
     private float height(float distance) {
-        return featuredItemHeight + ((distance * (diffHeight)) / maxDistance);
+        return featuredItemHeight - ((distance * (diffHeight)) / maxDistance);
     }
 
     private void changeHeightAccordingToScrolling(RecyclerView recyclerView) {
         for (int i = 0; i < totalItemsInView; i++) {
             View viewToBeResized = recyclerView.getChildAt(i);
             if (viewToBeResized != null) {
-                float distance = featuredItemHeight/2 - getCenterOfView(viewToBeResized);
+                float distance = getTopOfView(viewToBeResized);
                 if (distance > maxDistance) {
                     viewToBeResized.getLayoutParams().height = defaultItemHeight;
                     viewToBeResized.requestLayout();
                 } else if (distance <= maxDistance){
-                    if (height(distance) < defaultItemHeight) {
-                        System.out.println("Height is less than defaultItemHeight");
-                        viewToBeResized.getLayoutParams().height = defaultItemHeight;
-                    } else if (height(distance) > featuredItemHeight) {
-                        viewToBeResized.getLayoutParams().height = featuredItemHeight;
-                    } else {
-                        viewToBeResized.getLayoutParams().height = (int) height(distance);
-                    }
+                    viewToBeResized.getLayoutParams().height = (int) height(distance);
                     viewToBeResized.requestLayout();
                 }
             }
         }
     }
 
-    private float getCenterOfView(View view) {
-        int top = view.getTop();
-        if (top < 0) {
-            return Math.abs(view.getTop() - view.getHeight()) / 2f;
-        } else {
-            return (view.getTop() + view.getHeight()) / 2f;
-        }
+    private float getTopOfView(View view) {
+        return Math.abs(view.getTop());
     }
 
     private void calculateItemToBeResizePosition() {

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDummyDataList() {
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= 100; i++) {
             dummyData.add("Item " + i);
         }
     }
