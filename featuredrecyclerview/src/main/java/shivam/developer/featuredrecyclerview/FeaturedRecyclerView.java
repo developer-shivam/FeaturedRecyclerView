@@ -17,6 +17,10 @@ public class FeaturedRecyclerView extends RecyclerView {
     private int diffHeight;
 
     private int totalItemsInView = 0;
+    private int itemToResize;
+    private int dyAbs;
+
+    private FeatureRecyclerViewAdapter adapter;
 
     public FeaturedRecyclerView(Context context) {
         super(context);
@@ -43,6 +47,8 @@ public class FeaturedRecyclerView extends RecyclerView {
                     LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
                     if (layoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
                         totalItemsInView = layoutManager.getItemCount();
+                        dyAbs = Math.abs(dy);
+                        itemToResize = dy > 0 ? 1 : 0;
                         changeHeightAccordingToScrolling(recyclerView);
                     }
                 }
@@ -85,15 +91,34 @@ public class FeaturedRecyclerView extends RecyclerView {
                 if (distance > maxDistance) {
                     viewToBeResized.getLayoutParams().height = defaultItemHeight;
                     viewToBeResized.requestLayout();
-                } else if (distance <= maxDistance){
+                } else if (distance <= maxDistance) {
                     viewToBeResized.getLayoutParams().height = (int) height(distance);
                     viewToBeResized.requestLayout();
                 }
+                if (i == itemToResize) {
+                    onItemBigResize(viewToBeResized, recyclerView);
+                } else {
+                    onItemSmallResize(viewToBeResized, recyclerView);
+                }
             }
+
         }
+    }
+
+    private void onItemSmallResize(View view, RecyclerView recyclerView) {
+        adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, dyAbs);
+    }
+
+    private void onItemBigResize(View view, RecyclerView recyclerView) {
+        adapter.onBigItemResize(recyclerView.getChildViewHolder(view), itemToResize, dyAbs);
     }
 
     private float getTopOfView(View view) {
         return Math.abs(view.getTop());
+    }
+
+    public void setAdapter(FeatureRecyclerViewAdapter adapter) {
+        this.adapter = adapter;
+        super.setAdapter(adapter);
     }
 }

@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rohitarya.picasso.facedetection.transformation.FaceCenterCrop;
 import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomRecyclerViewHolder> {
+import shivam.developer.featuredrecyclerview.FeatureRecyclerViewAdapter;
+
+public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<CustomRecyclerViewAdapter.CustomRecyclerViewHolder> {
 
     private List<String> dataList;
     private Context context;
@@ -34,22 +35,41 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     }
 
     @Override
-    public CustomRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CustomRecyclerViewHolder onCreateFeaturedViewHolder(ViewGroup parent, int viewType) {
         return new CustomRecyclerViewHolder(
                 LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.simple_reycler_view_layout, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(CustomRecyclerViewHolder holder, int position) {
+    public void onBindFeaturedViewHolder(CustomRecyclerViewHolder holder, int position) {
         Picasso.with(context)
                 .load(images[position % 5]).into(holder.ivBackground);
         holder.tvHeading.setText(dataList.get(position));
     }
 
     @Override
-    public int getItemCount() {
+    public int getFeaturedItemsCount() {
         return dataList.size();
+    }
+
+    @Override
+    public void onSmallItemResize(CustomRecyclerViewHolder holder, int position, int offset) {
+        System.out.println(offset);
+        if (holder.tvHeading.getTextSize() + offset/100f < 30) {
+            holder.tvHeading.setTextSize(holder.tvHeading.getTextSize() + offset/100f);
+        } else {
+            holder.tvHeading.setTextSize(30);
+        }
+    }
+
+    @Override
+    public void onBigItemResize(CustomRecyclerViewHolder holder, int position, int offset) {
+        if (holder.tvHeading.getTextSize() + offset/100f < 30) {
+            holder.tvHeading.setTextSize(holder.tvHeading.getTextSize() + offset/100f);
+        } else {
+            holder.tvHeading.setTextSize(30);
+        }
     }
 
     public static class CustomRecyclerViewHolder extends RecyclerView.ViewHolder {
