@@ -19,7 +19,7 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
 
     private List<String> dataList;
     private Context context;
-    private int[] images = new int[5];
+    private int[] images = new int[4];
 
     public CustomRecyclerViewAdapter(Context context, List<String> list) {
         this.dataList = list;
@@ -27,10 +27,9 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
         PicassoFaceDetector.initialize(context);
 
         images[0] = R.drawable.image_one;
-        images[1] = R.drawable.image_two;
-        images[3] = R.drawable.image_three;
-        images[2] = R.drawable.image_four;
-        images[4] = R.drawable.image_five;
+        images[1] = R.drawable.image_three;
+        images[2] = R.drawable.image_two;
+        images[3] = R.drawable.image_four;
 
     }
 
@@ -44,7 +43,7 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
     @Override
     public void onBindFeaturedViewHolder(CustomRecyclerViewHolder holder, int position) {
         Picasso.with(context)
-                .load(images[position % 5]).into(holder.ivBackground);
+                .load(images[position % 4]).into(holder.ivBackground);
         holder.tvHeading.setText(dataList.get(position));
     }
 
@@ -56,20 +55,11 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
     @Override
     public void onSmallItemResize(CustomRecyclerViewHolder holder, int position, int offset) {
         System.out.println(offset);
-        if (holder.tvHeading.getTextSize() + offset/100f < 30) {
-            holder.tvHeading.setTextSize(holder.tvHeading.getTextSize() + offset/100f);
-        } else {
-            holder.tvHeading.setTextSize(30);
-        }
     }
 
     @Override
     public void onBigItemResize(CustomRecyclerViewHolder holder, int position, int offset) {
-        if (holder.tvHeading.getTextSize() + offset/100f < 30) {
-            holder.tvHeading.setTextSize(holder.tvHeading.getTextSize() + offset/100f);
-        } else {
-            holder.tvHeading.setTextSize(30);
-        }
+
     }
 
     public static class CustomRecyclerViewHolder extends RecyclerView.ViewHolder {

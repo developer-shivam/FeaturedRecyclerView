@@ -57,7 +57,6 @@ public class FeaturedRecyclerView extends RecyclerView {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
             }
         });
     }
@@ -106,10 +105,11 @@ public class FeaturedRecyclerView extends RecyclerView {
     }
 
     private void onItemSmallResize(View view, RecyclerView recyclerView) {
-        adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, dyAbs);
+        adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, view.getHeight());
     }
 
     private void onItemBigResize(View view, RecyclerView recyclerView) {
+        int offset = view.getHeight() * 100 / featuredItemHeight;
         adapter.onBigItemResize(recyclerView.getChildViewHolder(view), itemToResize, dyAbs);
     }
 
