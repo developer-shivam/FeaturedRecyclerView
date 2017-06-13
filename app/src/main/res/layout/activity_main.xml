@@ -9,6 +9,5 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:defaultItemHeight="150dp"
-        app:featuredItemHeight="400dp"
-        app:snapGravity="start"/>
+        app:featuredItemHeight="400dp"/>
 </LinearLayout>

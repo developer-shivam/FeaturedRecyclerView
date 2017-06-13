@@ -1,6 +1,6 @@
 package shivam.developer.focusrecyclerview;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,15 +8,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rohitarya.picasso.facedetection.transformation.FaceCenterCrop;
+import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
-import java.util.Random;
 
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomRecyclerViewHolder> {
 
     private List<String> dataList;
+    private Context context;
+    private int[] images = new int[5];
 
-    public CustomRecyclerViewAdapter(List<String> list) {
+    public CustomRecyclerViewAdapter(Context context, List<String> list) {
         this.dataList = list;
+        this.context = context;
+        PicassoFaceDetector.initialize(context);
+
+        images[0] = R.drawable.image_one;
+        images[1] = R.drawable.image_two;
+        images[3] = R.drawable.image_three;
+        images[2] = R.drawable.image_four;
+        images[4] = R.drawable.image_five;
+
     }
 
     @Override
@@ -28,9 +42,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public void onBindViewHolder(CustomRecyclerViewHolder holder, int position) {
-        Random random = new Random();
-        int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-        holder.ivBackground.setBackgroundColor(color);
+        Picasso.with(context)
+                .load(images[position % 5]).into(holder.ivBackground);
         holder.tvHeading.setText(dataList.get(position));
     }
 

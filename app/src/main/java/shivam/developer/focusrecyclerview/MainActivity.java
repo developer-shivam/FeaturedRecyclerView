@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
         featuredRecyclerView = (FeaturedRecyclerView) findViewById(R.id.featured_recycler_view);
         FeatureLinearLayoutManager layoutManager = new FeatureLinearLayoutManager(this);
         featuredRecyclerView.setLayoutManager(layoutManager);
-        CustomRecyclerViewAdapter adapter = new CustomRecyclerViewAdapter(dummyData);
+        CustomRecyclerViewAdapter adapter = new CustomRecyclerViewAdapter(this, dummyData);
         featuredRecyclerView.setAdapter(adapter);
     }
 
     private void createDummyDataList() {
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 20; i++) {
             dummyData.add("Item " + i);
         }
     }
