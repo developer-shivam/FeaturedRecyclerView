@@ -2,7 +2,6 @@ package shivam.developer.featuredrecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ public class FeaturedRecyclerView extends RecyclerView {
 
     private int totalItemsInView = 0;
     private int itemToResize;
-    private int dyAbs;
 
     private FeatureRecyclerViewAdapter adapter;
 
@@ -47,9 +45,8 @@ public class FeaturedRecyclerView extends RecyclerView {
                     LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
                     if (layoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
                         totalItemsInView = layoutManager.getItemCount();
-                        dyAbs = Math.abs(dy);
                         itemToResize = dy > 0 ? 1 : 0;
-                        changeHeightAccordingToScrolling(recyclerView);
+                        changeHeightAccordingToScroll(recyclerView);
                     }
                 }
             }
@@ -78,11 +75,24 @@ public class FeaturedRecyclerView extends RecyclerView {
         System.out.println("Maximum Distance: " + maxDistance);
     }
 
+    /**
+     * If the distance of view is 0 then its height would be equal to featuredItemHeight
+     * else height according to distance.
+     * In every case maxDistance = (featuredItemHeight + defaultItemHeight) / 2
+     *
+     * @param distance is distance between 0 Y-Coordinate and view.getTop()
+     * @return height = = featuredItemHeight - ((distance * (featuredItemHeight - defaultItemHeight) / maxDistance)
+     */
     private float height(float distance) {
         return featuredItemHeight - ((distance * (diffHeight)) / maxDistance);
     }
 
-    private void changeHeightAccordingToScrolling(RecyclerView recyclerView) {
+    /**
+     * This method will invoked every time onScroll is invoked.
+     *
+     * @param recyclerView is the recyclerview on whom scrolling is performed.
+     */
+    private void changeHeightAccordingToScroll(RecyclerView recyclerView) {
         for (int i = 0; i < totalItemsInView; i++) {
             View viewToBeResized = recyclerView.getChildAt(i);
             if (viewToBeResized != null) {
@@ -104,13 +114,24 @@ public class FeaturedRecyclerView extends RecyclerView {
         }
     }
 
+    /**
+     * Ranges from 0 to 100. If height is featuredItemHeight then offset would be
+     * 100 and if height is defaultItemHeight then it will be equal to 0.
+     *
+     * @param height will be the height of view
+     * @return the offset according to which view's child's property can be
+     * changed.
+     */
+    private float getOffsetAccordingToHeight(int height) {
+        return ((height - defaultItemHeight) * 100) / diffHeight;
+    }
+
     private void onItemSmallResize(View view, RecyclerView recyclerView) {
-        adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, view.getHeight());
+        adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, getOffsetAccordingToHeight(view.getHeight()));
     }
 
     private void onItemBigResize(View view, RecyclerView recyclerView) {
-        int offset = view.getHeight() * 100 / featuredItemHeight;
-        adapter.onBigItemResize(recyclerView.getChildViewHolder(view), itemToResize, dyAbs);
+        adapter.onBigItemResize(recyclerView.getChildViewHolder(view), itemToResize, getOffsetAccordingToHeight(view.getHeight()));
     }
 
     private float getTopOfView(View view) {

@@ -11,9 +11,9 @@ public abstract class FeatureRecyclerViewAdapter<T extends RecyclerView.ViewHold
 
     public abstract int getFeaturedItemsCount();
 
-    public abstract void onSmallItemResize(T holder, int position, int offset);
+    public abstract void onSmallItemResize(T holder, int position, float offset);
 
-    public abstract void onBigItemResize(T holder, int position, int offset);
+    public abstract void onBigItemResize(T holder, int position, float offset);
 
     @Override
     public T onCreateViewHolder(ViewGroup parent, int viewType) {

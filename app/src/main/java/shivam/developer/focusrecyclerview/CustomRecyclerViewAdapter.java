@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,17 +18,17 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
 
     private List<String> dataList;
     private Context context;
-    private int[] images = new int[4];
+    private int[] images = new int[5];
 
     public CustomRecyclerViewAdapter(Context context, List<String> list) {
         this.dataList = list;
         this.context = context;
-        PicassoFaceDetector.initialize(context);
 
         images[0] = R.drawable.image_one;
         images[1] = R.drawable.image_three;
         images[2] = R.drawable.image_two;
         images[3] = R.drawable.image_four;
+        images[4] = R.drawable.image_five;
 
     }
 
@@ -37,7 +36,7 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
     public CustomRecyclerViewHolder onCreateFeaturedViewHolder(ViewGroup parent, int viewType) {
         return new CustomRecyclerViewHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.simple_reycler_view_layout, parent, false));
+                        .inflate(R.layout.reference_layout, parent, false));
     }
 
     @Override
@@ -53,13 +52,13 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
     }
 
     @Override
-    public void onSmallItemResize(CustomRecyclerViewHolder holder, int position, int offset) {
-        System.out.println(offset);
+    public void onSmallItemResize(CustomRecyclerViewHolder holder, int position, float offset) {
+        holder.tvHeading.setAlpha(offset / 100f);
     }
 
     @Override
-    public void onBigItemResize(CustomRecyclerViewHolder holder, int position, int offset) {
-
+    public void onBigItemResize(CustomRecyclerViewHolder holder, int position, float offset) {
+        holder.tvHeading.setAlpha(offset / 100f);
     }
 
     public static class CustomRecyclerViewHolder extends RecyclerView.ViewHolder {
