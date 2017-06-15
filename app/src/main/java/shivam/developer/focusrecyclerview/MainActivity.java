@@ -13,7 +13,7 @@ import shivam.developer.featuredrecyclerview.FeaturedRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<String> dummyData = new ArrayList();
+    List<String> dummyData = new ArrayList<>();
     FeaturedRecyclerView featuredRecyclerView;
 
     @Override

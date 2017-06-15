@@ -8,7 +8,6 @@
         android:id="@+id/featured_recycler_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_margin="20dp"
         app:defaultItemHeight="120dp"
         app:featuredItemHeight="300dp"/>
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Adapter;
 
 public class FeaturedRecyclerView extends RecyclerView {
 
@@ -65,14 +66,9 @@ public class FeaturedRecyclerView extends RecyclerView {
         featuredItemHeight = (int) array.getDimension(R.styleable.FeaturedRecyclerView_featuredItemHeight,
                 getResources().getDimension(R.dimen.featuredItemHeight));
 
-        System.out.println("Featured Height: " + featuredItemHeight);
-        System.out.println("Default Height: " + defaultItemHeight);
-
         diffHeight = featuredItemHeight - defaultItemHeight;
-        System.out.println("Difference: " + diffHeight);
 
         maxDistance = featuredItemHeight;
-        System.out.println("Maximum Distance: " + maxDistance);
     }
 
     /**
@@ -127,19 +123,25 @@ public class FeaturedRecyclerView extends RecyclerView {
     }
 
     private void onItemSmallResize(View view, RecyclerView recyclerView) {
-        adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, getOffsetAccordingToHeight(view.getHeight()));
+        if (adapter != null) {
+            adapter.onSmallItemResize(recyclerView.getChildViewHolder(view), itemToResize, getOffsetAccordingToHeight(view.getHeight()));
+        }
     }
 
     private void onItemBigResize(View view, RecyclerView recyclerView) {
-        adapter.onBigItemResize(recyclerView.getChildViewHolder(view), itemToResize, getOffsetAccordingToHeight(view.getHeight()));
+        if (adapter != null) {
+            adapter.onBigItemResize(recyclerView.getChildViewHolder(view), itemToResize, getOffsetAccordingToHeight(view.getHeight()));
+        }
     }
 
     private float getTopOfView(View view) {
         return Math.abs(view.getTop());
     }
 
-    public void setAdapter(FeatureRecyclerViewAdapter adapter) {
-        this.adapter = adapter;
+    public void setAdapter(Adapter adapter) {
+        if (adapter instanceof FeatureRecyclerViewAdapter) {
+            this.adapter = (FeatureRecyclerViewAdapter) adapter;
+        }
         super.setAdapter(adapter);
     }
 }

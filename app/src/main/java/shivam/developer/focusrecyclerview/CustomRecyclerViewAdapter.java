@@ -36,7 +36,7 @@ public class CustomRecyclerViewAdapter extends FeatureRecyclerViewAdapter<Custom
     public CustomRecyclerViewHolder onCreateFeaturedViewHolder(ViewGroup parent, int viewType) {
         return new CustomRecyclerViewHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.reference_layout, parent, false));
+                        .inflate(R.layout.simple_reycler_view_layout, parent, false));
     }
 
     @Override
