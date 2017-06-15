@@ -4,7 +4,7 @@ FeaturedRecyclerView
 
 [![API](https://img.shields.io/badge/API-11%2B-red.svg)](https://android-arsenal.com/api?level=11)
 
-![SampleGIF](/art/sample_GIF.gif) 
+![SampleGIF](/art/mockup.png) 
 
 Attributes
 ----------
@@ -12,6 +12,8 @@ Attributes
 * **featuredItemHeight**: Height of first item.
 * **defaultItemHeight** : Height of other items.
 * **offset** : It is not a xml attribute but a parameter which is received in **FeaturedRecyclerViewAdapter**'s method to animate the property of childs widget.
+
+![SampleGIF](/art/sample_GIF.gif) 
 
 Diagramatic View
 -----------------------
