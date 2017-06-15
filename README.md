@@ -33,7 +33,7 @@ Basic Usage
 
 Add below lines in build.gradle at app level.
 ```java
-compile 'com.github.developer-shivam:featuredrecyclerview:1.0.0'
+compile 'com.github.developer-shivam:FeaturedRecyclerView:1.0.0'
 ```
 
 *For a working implementation, see `/app` folder*
