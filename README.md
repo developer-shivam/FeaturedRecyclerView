@@ -11,26 +11,39 @@ Attributes
 
 * **featuredItemHeight**: Height of first item.
 * **defaultItemHeight** : Height of other items.
+* **offset** : It is not a xml attribute but a parameter which is received in **FeaturedRecyclerViewAdapter**'s method to animate the property of childs widget.
+
+Diagramatic View
+-----------------------
+![SampleDiagram](/art/diagram_small.jpg) 
+
+Concept
+----------
+![Concept](/art/concept.gif) 
 
 FutureWork
 ---------------
 * **Horizontal Orientation** support would be added.
-* **Reference Points** would be changed
+* **Reference Points** would be changed.
 
-Donations
--------------
-
-This project needs you! If you would like to support this project's further development, the creator of this project or the continuous maintenance of this project, feel free to donate. Your donation is highly appreciated (and I love food, coffee and beer). Thank you!
+Basic Usage
+-----------
 
 Add below lines in build.gradle at app level.
 ```java
 compile 'com.github.developer-shivam:featuredrecyclerview:1.0.0'
 ```
 
-Basic Usage
------------
-
 *For a working implementation, see `/app` folder*
+
+```java
+FeaturedRecyclerView featuredRecyclerView = (FeaturedRecyclerView) findViewById(R.id.featured_recycler_view);
+FeatureLinearLayoutManager layoutManager = new FeatureLinearLayoutManager(this);
+featuredRecyclerView.setLayoutManager(layoutManager);
+CustomRecyclerViewAdapter adapter = new CustomRecyclerViewAdapter(this, dummyData);featuredRecyclerView.setAdapter(adapter);
+```
+
+You must use **FeaturedLinearLayoutManager** to avoid flickering.
 
 ```xml
 <developer.shivam.featuredrecyclerview.FeaturedRecyclerView android:id="@+id/featured_recycler_view"
@@ -39,6 +52,24 @@ Basic Usage
     android:featuredItemHeight="400dp"
     android:defaultItemHeight="200dp" />
 ```
+
+Adavantages of using **FeaturedRecyclerViewAdapter** is that it contains two more methods which can be used to animate the properties of childs attribute (like textView fading).
+
+```java
+    @Override
+    public void onSmallItemResize(CustomRecyclerViewHolder holder, int position, float offset) {
+       holder.tvHeading.setAlpha(offset / 100f);
+    }
+
+    @Override
+    public void onBigItemResize(CustomRecyclerViewHolder holder, int position, float offset) {
+       holder.tvHeading.setAlpha(offset / 100f);
+    }
+```
+Donations
+-------------
+
+This project needs you! If you would like to support this project's further development, the creator of this project or the continuous maintenance of this project, feel free to donate. Your donation is highly appreciated (and I love food, coffee and beer). Thank you!
 
 **PayPal**
 
