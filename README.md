@@ -2,7 +2,7 @@ FeaturedRecyclerView
 ------------------------------
 **FeaturedRecyclerView** is a custom **ViewGroup** which is made by extending **ReyclerView**. As name suggest **FeaturedRecyclerView**, it features the first item which is at top (by setting its height to **featuredItemHeight**).
 
-[![API](https://img.shields.io/badge/API-11%2B-red.svg)](https://android-arsenal.com/api?level=11)
+[![API](https://img.shields.io/badge/API-11%2B-red.svg)](https://android-arsenal.com/api?level=11)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-FeaturedRecyclerView-yellowgreen.svg?style=flat)](https://android-arsenal.com/details/1/5892)
 
 ![SampleGIF](/art/mockup.png) 
 
