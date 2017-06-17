@@ -4,6 +4,9 @@ FeaturedRecyclerView
 
 [![API](https://img.shields.io/badge/API-11%2B-red.svg)](https://android-arsenal.com/api?level=11) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-FeaturedRecyclerView-yellowgreen.svg?style=flat)](https://android-arsenal.com/details/1/5892)
 
+I have written article on this library (How's it working)
+https://blog.mindorks.com/hack-that-recyclerview-f6b8238e68ec
+
 ![SampleGIF](/art/mockup.png) 
 
 Attributes
