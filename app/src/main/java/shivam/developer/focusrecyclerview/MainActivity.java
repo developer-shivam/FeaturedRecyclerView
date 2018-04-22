@@ -22,10 +22,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         createDummyDataList();
+
         featuredRecyclerView = (FeaturedRecyclerView) findViewById(R.id.featured_recycler_view);
+
         FeatureLinearLayoutManager layoutManager = new FeatureLinearLayoutManager(this);
         featuredRecyclerView.setLayoutManager(layoutManager);
-        CustomRecyclerViewAdapter adapter = new CustomRecyclerViewAdapter(this, dummyData);
+
+        CustomRecyclerViewAdapter adapter = new CustomRecyclerViewAdapter();
+        adapter.swapData(dummyData);
+
         featuredRecyclerView.setAdapter(adapter);
     }
 
